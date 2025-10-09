@@ -9,7 +9,7 @@ Adding and removing assets is working.
 Moving assets to another asset is working.
 Combat calculation is working.
 Win and lose states are working.
-Group to attack first has 64~65% chance to win. If attacked first, chances are 35~36%.(100000 cycles tested)
+Group to attack first has 64~65 percent chance to win. If attacked first, chances are 35~36 percent.(100000 cycles tested)
 
 
 
