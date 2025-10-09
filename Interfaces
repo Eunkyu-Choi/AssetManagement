@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+
+public interface IIdentifiable
+{
+    int ID { get; }
+    int HierarchyLvl { get; }
+    string Name { get; }
+
+    void SetName(string newName);
+}
+
+public interface IChild : IIdentifiable
+{
+    IParent Parent { get; }
+
+    void SetParent(IParent newParent);
+}
+
+public interface IParent : IIdentifiable
+{
+    Dictionary<int, IChild> Children { get; }
+
+    void AddChild(IChild child);
+    void RemoveChild(int ID);
+    IChild GetChild(int ID);
+}
