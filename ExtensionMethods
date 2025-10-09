@@ -1,0 +1,122 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+public static class ExtensionMethods
+{
+    private static Stack<int> availableIDs = new();
+    private static int IDCount = 0;
+
+    public static int GetValidID()
+    {
+        if (availableIDs.Count == 0) return IDCount++;
+        else return availableIDs.Pop();
+    }
+
+    public static void SetAsChild(this IParent parent, IChild child)
+    {
+        if (parent is null || child is null) return;
+        if (ReferenceEquals(parent, child)) return;
+        if (parent.HierarchyLvl >= child.HierarchyLvl) return;
+        if (child.Parent != null && !ReferenceEquals(child.Parent, parent))
+            child.Parent.RemoveChild(child.ID);
+        child.SetParent(parent);
+        parent.AddChild(child);
+    }
+
+    public static void DestroyParent(this IParent parent)
+    {
+        IChild asChild = parent as IChild;
+        if (asChild is null) return;
+
+        foreach (IChild child in new List<IChild>(parent.Children.Values))
+        {
+            child.SetParent(asChild.Parent);
+            asChild.Parent.AddChild(child);
+        }
+
+        asChild.Parent.RemoveChild(parent.ID);
+    }
+
+    public static void DestroyChild(this IChild child)
+    {
+        if (child.Parent is null) return;
+        child.Parent.RemoveChild(child.ID);
+        child.SetParent(null);
+
+        availableIDs.Push(child.ID);
+    }
+
+    public static void AttackTo(this Group attacker, Group defender)
+    {
+        List<int> defendPoints = new();
+
+        float attackPointTotal = 0;
+        int defendPointTotal = 0;
+        Random random = new Random();
+
+        foreach (IChild child in attacker.Children.Values)
+        {
+            int val = random.Next(1, 7);
+            attackPointTotal += val;
+
+            //Console.Write($"{child.Name}({val})\t");
+        }
+
+        //Console.Write($"{attackPointTotal}");
+        //Console.Write("\n");
+
+        foreach (IChild child in defender.Children.Values)
+        {
+            int val = random.Next(1, 7);
+            defendPoints.Add(val);
+            defendPointTotal += val;
+
+            //Console.Write($"{child.Name}({val})\t");
+        }
+
+        //Console.Write($"{defendPointTotal}");
+        //Console.Write("\n");
+
+        float attackPointAvg = MathF.Round(attackPointTotal / attacker.Children.Count, 1);
+
+        if (attackPointTotal > defendPointTotal)
+        {
+            int i = 0;
+
+            //Console.Write($"Attack was successful (APAvg = {attackPointAvg})");
+
+            foreach (IChild child in defender.Children.Values)
+            {
+                if (attackPointAvg > defendPoints[i]) defender.RemoveChild(child.ID);
+                i++;
+            }
+        }
+        else
+        {
+            //Console.Write($"Attack was not successful (APAvg = {attackPointAvg})");
+        }
+
+        //Console.Write("\n-----------------------------------\n");
+    }
+
+    // helper methods
+    public static void PrintHierarchy(this IParent parent, int indentCount = 0)
+    {
+        string indent = new string(' ', indentCount * 4);
+        Console.WriteLine($"{indent}{parent.Name}");
+
+        foreach (var child in parent.Children)
+        {
+            if (child.Value is IParent childParent)
+            {
+                childParent.PrintHierarchy(indentCount + 1);
+            }
+            else
+            {
+                string childIndent = new string(' ', (indentCount + 1) * 4);
+                Console.WriteLine($"{childIndent}{child.Value.Name}");
+            }
+        }
+    }
+}
