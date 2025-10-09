@@ -1,0 +1,103 @@
+using System;
+
+public class Tester
+{
+    static void Main()
+    {
+        /*
+        Unit unit1 = new Unit("Unit 1");
+        Unit unit2 = new Unit("Unit 2");
+        Unit unit3 = new Unit("Unit 3");
+
+        Group group1 = new Group("Group1");
+        Group group2 = new Group("Group 2");
+
+        Node node1 = new Node("Node 1");
+        Node node2 = new Node("Node 2");
+
+        group1.SetAsChild(unit1);
+        group1.SetAsChild(unit2);
+        group2.SetAsChild(unit3);
+
+        node1.SetAsChild(group1);
+        node1.SetAsChild(group2);
+
+        node1.PrintHierarchy();
+
+        group1.DestroyParent();
+
+        Console.WriteLine("\nAfter destroying group 1\n");
+
+        node1.PrintHierarchy();
+
+        unit2.DestroyChild();
+
+        Console.WriteLine("\nAfter destroying unit 2\n");
+
+        node1.PrintHierarchy();
+
+        node2.SetAsChild(group2);
+
+        Console.WriteLine("\nAfter moving group 2 to node 2\n");
+
+        node1.PrintHierarchy();
+        Console.Write("\n");
+        node2.PrintHierarchy();
+        
+        */
+        int cycles = 10000;
+        float count = 0;
+
+        for (int i = 0; i < cycles; i++)
+        {
+            if (IsMyTeamWinner()) count++;
+        }
+
+        Console.WriteLine("----------------------------------");
+        Console.WriteLine($"{Math.Round(count / cycles * 100, 2)}% win rate");
+    }
+
+    private static bool IsMyTeamWinner()
+    {
+        Unit mu1 = new Unit("MU1");
+        Unit mu2 = new Unit("MU2");
+        Unit mu3 = new Unit("MU3");
+        Unit mu4 = new Unit("MU4");
+        Unit mu5 = new Unit("MU5");
+
+        Unit eu1 = new Unit("EU1");
+        Unit eu2 = new Unit("EU2");
+        Unit eu3 = new Unit("EU3");
+        Unit eu4 = new Unit("EU4");
+        Unit eu5 = new Unit("EU5");
+
+        Group mg = new Group("MyGroup");
+        Group eg = new Group("EnemyGroup");
+
+        mg.SetAsChild(mu1);
+        mg.SetAsChild(mu2);
+        mg.SetAsChild(mu3);
+        mg.SetAsChild(mu4);
+        mg.SetAsChild(mu5);
+
+        eg.SetAsChild(eu1);
+        eg.SetAsChild(eu2);
+        eg.SetAsChild(eu3);
+        eg.SetAsChild(eu4);
+        eg.SetAsChild(eu5);
+
+        Group attacker = eg;
+        Group defender = mg;
+
+        while (attacker.Children.Count != 0 && defender.Children.Count != 0)
+        {
+            (attacker, defender) = (defender, attacker);
+            attacker.AttackTo(defender);
+        }
+
+        //Console.Write($"{attacker.Name} won\n");
+
+        if (attacker == mg) return true;
+        else return false;
+    }
+}
