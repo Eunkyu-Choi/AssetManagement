@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+
+public class Node : IParent
+{
+    public int HierarchyLvl { get; } = 0;
+    public int ID { get; private set; }
+
+    // IIdentifiable implementation
+    public string Name { get; private set; }
+    public void SetName(string newName) => Name = newName;
+
+    // IParent implementation
+    public Dictionary<int, IChild> Children { get; private set; } = new();
+    public void AddChild(IChild child)
+    {
+        if (Children.ContainsKey(child.ID)) return;
+        Children.Add(child.ID, child);
+    }
+    public void RemoveChild(int ID)
+    {
+        if (!Children.ContainsKey(ID)) return;
+        Children.Remove(ID);
+    }
+    public IChild GetChild(int ID)
+    {
+        if (!Children.TryGetValue(ID, out IChild child)) return null;
+        return child;
+    }
+
+    public Node(string nodeName)
+    {
+        ID = ExtensionMethods.GetValidID();
+        Name = nodeName;
+    }
+}
