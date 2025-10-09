@@ -1,0 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+public class Unit : IChild
+{
+    public int HierarchyLvl { get; } = 2;
+    public int ID { get; private set; }
+
+    // IIdentifiable implementation   
+    public string Name { get; private set; }
+    public void SetName(string newName) => Name = newName;
+
+    // IChild implementation
+    public IParent Parent { get; private set; }
+    public void SetParent(IParent newParent) => Parent = newParent;
+
+    public Unit(string unitName)
+    {
+        ID = ExtensionMethods.GetValidID();
+        Name = unitName;
+    }
+}
