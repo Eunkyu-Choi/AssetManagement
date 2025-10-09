@@ -4,12 +4,17 @@ Current version tests handling mutiple assets with different hierarchy levels an
 
 [Tests conducted in this version]
 
-Creating and destroying assets is working.
-Adding and removing assets is working.
-Moving assets to another asset is working.
-Combat calculation is working.
-Win and lose states are working.
-Group to attack first has 64-65% chance to win. If attacked first, chances are 35-36%.(100000 cycles tested)
+ - Creating and destroying assets is working.
+
+ - Adding and removing assets is working.
+
+ - Moving assets to another asset is working.
+
+ - Combat calculation is working.
+
+ - Win and lose states are working.
+
+ - Group to attack first has 64-65% chance to win. If attacked first, chances are 35-36%.(100000 cycles tested)
 
 
 
