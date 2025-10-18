@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 
 public class Tester
 {
@@ -44,7 +45,6 @@ public class Tester
         Console.Write("\n");
         node2.PrintHierarchy();
         
-        */
         int cycles = 10000;
         float count = 0;
 
@@ -55,21 +55,24 @@ public class Tester
 
         Console.WriteLine("----------------------------------");
         Console.WriteLine($"{Math.Round(count / cycles * 100, 2)}% win rate");
+        */
+
+        TestCombat();
     }
 
     private static bool IsMyTeamWinner()
     {
-        Unit mu1 = new Unit("MU1");
-        Unit mu2 = new Unit("MU2");
-        Unit mu3 = new Unit("MU3");
-        Unit mu4 = new Unit("MU4");
-        Unit mu5 = new Unit("MU5");
+        Unit mu1 = new Unit("MU1", 3, 6, 1, 10, 5);
+        Unit mu2 = new Unit("MU2", 3, 6, 1, 10, 5);
+        Unit mu3 = new Unit("MU3", 3, 6, 1, 10, 5);
+        Unit mu4 = new Unit("MU4", 3, 6, 1, 10, 5);
+        Unit mu5 = new Unit("MU5", 3, 6, 1, 10, 5);
 
-        Unit eu1 = new Unit("EU1");
-        Unit eu2 = new Unit("EU2");
-        Unit eu3 = new Unit("EU3");
-        Unit eu4 = new Unit("EU4");
-        Unit eu5 = new Unit("EU5");
+        Unit eu1 = new Unit("EU1", 3, 6, 1, 10, 5);
+        Unit eu2 = new Unit("EU2", 3, 6, 1, 10, 5);
+        Unit eu3 = new Unit("EU3", 3, 6, 1, 10, 5);
+        Unit eu4 = new Unit("EU4", 3, 6, 1, 10, 5);
+        Unit eu5 = new Unit("EU5", 3, 6, 1, 10, 5);
 
         Group mg = new Group("MyGroup");
         Group eg = new Group("EnemyGroup");
@@ -99,5 +102,69 @@ public class Tester
 
         if (attacker == mg) return true;
         else return false;
+    }
+
+    private static void TestCombat()
+    {
+        Unit mu1 = new Unit("MU1", 3, 6, 2, 8, 3);
+        Unit mu2 = new Unit("MU2", 3, 6, 2, 8, 3);
+        Unit mu3 = new Unit("MU3", 3, 6, 2, 8, 3);
+        Unit mu4 = new Unit("MU4", 3, 6, 2, 8, 3);
+        Unit mu5 = new Unit("MU5", 3, 6, 2, 8, 3);
+
+        Unit eu1 = new Unit("EU1", 3, 6, 2, 8, 3);
+        Unit eu2 = new Unit("EU2", 3, 6, 2, 8, 3);
+        Unit eu3 = new Unit("EU3", 3, 6, 2, 8, 3);
+        Unit eu4 = new Unit("EU4", 3, 6, 2, 8, 3);
+        Unit eu5 = new Unit("EU5", 3, 6, 2, 8, 3);
+
+        Group mg = new Group("MyGroup");
+        Group eg = new Group("EnemyGroup");
+
+        mg.SetAsChild(mu1);
+        mg.SetAsChild(mu2);
+        mg.SetAsChild(mu3);
+        mg.SetAsChild(mu4);
+        mg.SetAsChild(mu5);
+
+        eg.SetAsChild(eu1);
+        eg.SetAsChild(eu2);
+        eg.SetAsChild(eu3);
+        eg.SetAsChild(eu4);
+        eg.SetAsChild(eu5);
+
+        Group attacker = mg;
+        Group defender = eg;
+
+        float turnCounter = 1;
+
+        Console.WriteLine("Start Combat? Y / N");
+        char startCombatInput = Console.ReadKey().KeyChar;
+
+        Console.Clear();
+        if (startCombatInput != 'y' && startCombatInput != 'Y') return;
+
+        while (attacker.Children.Count != 0 && defender.Children.Count != 0)
+        {
+            Console.Write($"\n[{turnCounter} Turn]\n");
+
+            attacker.AttackTo(defender);
+            if (defender.Children.Count == 0) break;
+            (attacker, defender) = (defender, attacker);
+
+            attacker.AttackTo(defender);
+            if (defender.Children.Count == 0) break;
+            (attacker, defender) = (defender, attacker);
+
+            turnCounter++;
+
+            Console.WriteLine("Continue To Next Turn? Y / N");
+            char continueCombatInput = Console.ReadKey().KeyChar;
+
+            Console.Clear();
+            if (continueCombatInput != 'y' && continueCombatInput != 'Y') return;
+        }
+
+        Console.Write($"{attacker.Name} won / {turnCounter} turns");
     }
 }
