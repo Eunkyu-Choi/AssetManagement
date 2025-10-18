@@ -49,34 +49,172 @@ public static class ExtensionMethods
 
     public static void AttackTo(this Group attacker, Group defender)
     {
+        List<int> attackPoints = new();
         List<int> defendPoints = new();
 
         float attackPointTotal = 0;
         int defendPointTotal = 0;
         Random random = new Random();
 
+        // attack cards
         foreach (IChild child in attacker.Children.Values)
         {
-            int val = random.Next(1, 7);
-            attackPointTotal += val;
+            Console.Write($"+-----------------+");
+        }
+        Console.Write("\n");
+        foreach (IChild child in attacker.Children.Values)
+        {
+            string name = $"Name : {child.Name}";
+            int spaces = (17 - name.Length) / 2;
+            if (spaces < 0) spaces = 0;
 
-            //Console.Write($"{child.Name}({val})\t");
+            Console.Write("|" + new String(' ', spaces) + name + new String(' ', 17 - spaces - name.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in attacker.Children.Values)
+        {
+            Console.Write($"|-----------------|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in attacker.Children.Values)
+        {
+            if (child is not Unit unit) return;
+            string diceStat = $"ATTACK({unit.ATKDiceCount}d{unit.ATKDiceVal})";
+            int spaces = (17 - diceStat.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + diceStat + new String(' ', 17 - spaces - diceStat.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in attacker.Children.Values)
+        {
+            if (child is not Unit unit) return;
+
+            string diceVals = "";
+            int subTotal = 0;
+            for (int i = 0; i < unit.ATKDiceCount; i++)
+            {
+                int randVal = random.Next(1, unit.ATKDiceVal + 1);
+                diceVals += $"[{randVal}]";
+                subTotal += randVal;
+            }
+
+            attackPoints.Add(subTotal);
+            attackPointTotal += subTotal;
+            int spaces = (17 - diceVals.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + diceVals + new String(' ', 17 - spaces - diceVals.Length) + "|");
+        }
+        Console.Write("\n");
+        for (int i = 0; i < attackPoints.Count; i++)
+        {
+            string total = $"Total : {attackPoints[i]}";
+            int spaces = (17 - total.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + total + new String(' ', 17 - spaces - total.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in attacker.Children.Values)
+        {
+            if (child is not Unit unit) return;
+            string life = "";
+            for (int i = 0; i < unit.Life; i++)
+            {
+                life += "O";
+            }
+            int spaces = (17 - life.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + life + new String(' ', 17 - spaces - life.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in attacker.Children.Values)
+        {
+            Console.Write($"+-----------------+");
         }
 
-        //Console.Write($"{attackPointTotal}");
-        //Console.Write("\n");
-
+        Console.Write("\n");
+        // defense cards
         foreach (IChild child in defender.Children.Values)
         {
-            int val = random.Next(1, 7);
-            defendPoints.Add(val);
-            defendPointTotal += val;
-
-            //Console.Write($"{child.Name}({val})\t");
+            Console.Write($"+-----------------+");
         }
+        Console.Write("\n");
+        foreach (IChild child in defender.Children.Values)
+        {
+            string name = $"Name : {child.Name}";
+            int spaces = (17 - name.Length) / 2;
+            if (spaces < 0) spaces = 0;
 
-        //Console.Write($"{defendPointTotal}");
-        //Console.Write("\n");
+            Console.Write("|" + new String(' ', spaces) + name + new String(' ', 17 - spaces - name.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in defender.Children.Values)
+        {
+            Console.Write($"|-----------------|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in defender.Children.Values)
+        {
+            if (child is not Unit unit) return;
+            string diceStat = $"DEFEND({unit.DEFDiceCount}d{unit.DEFDiceVal})";
+            int spaces = (17 - diceStat.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + diceStat + new String(' ', 17 - spaces - diceStat.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in defender.Children.Values)
+        {
+            if (child is not Unit unit) return;
+
+            string diceVals = "";
+            int subTotal = 0;
+            for (int i = 0; i < unit.DEFDiceCount; i++)
+            {
+                int randVal = random.Next(1, unit.DEFDiceVal + 1);
+                diceVals += $"[{randVal}]";
+                subTotal += randVal;
+            }
+
+            defendPoints.Add(subTotal);
+            defendPointTotal += subTotal;
+            int spaces = (17 - diceVals.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + diceVals + new String(' ', 17 - spaces - diceVals.Length) + "|");
+        }
+        Console.Write("\n");
+        for (int i = 0; i < defendPoints.Count; i++)
+        {
+            string total = $"Total : {defendPoints[i]}";
+            int spaces = (17 - total.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + total + new String(' ', 17 - spaces - total.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in defender.Children.Values)
+        {
+            if (child is not Unit unit) return;
+            string life = "";
+            for (int i = 0; i < unit.Life; i++)
+            {
+                life += "O";
+            }
+            int spaces = (17 - life.Length) / 2;
+            if (spaces < 0) spaces = 0;
+
+            Console.Write("|" + new String(' ', spaces) + life + new String(' ', 17 - spaces - life.Length) + "|");
+        }
+        Console.Write("\n");
+        foreach (IChild child in defender.Children.Values)
+        {
+            Console.Write($"+-----------------+");
+        }
+        Console.Write("\n");
 
         float attackPointAvg = MathF.Round(attackPointTotal / attacker.Children.Count, 1);
 
@@ -84,20 +222,25 @@ public static class ExtensionMethods
         {
             int i = 0;
 
-            //Console.Write($"Attack was successful (APAvg = {attackPointAvg})");
+            Console.Write($"Attack was successful (APTotal({attackPointTotal}) > DPTotal({defendPointTotal}) / APAvg = {attackPointAvg})");
 
             foreach (IChild child in defender.Children.Values)
             {
-                if (attackPointAvg > defendPoints[i]) defender.RemoveChild(child.ID);
+                if (attackPointAvg > defendPoints[i])
+                {
+                    if (child is not Unit unit) return;
+
+                    unit.ChangeLife(unit.Life - 1);
+                    if (unit.Life <= 0) defender.RemoveChild(unit.ID);
+                }
                 i++;
             }
         }
         else
         {
-            //Console.Write($"Attack was not successful (APAvg = {attackPointAvg})");
+            Console.Write($"Attack was not successful (APTotal({attackPointTotal}) < DPTotal({defendPointTotal}))");
         }
-
-        //Console.Write("\n-----------------------------------\n");
+        Console.Write("\n");
     }
 
     // helper methods
