@@ -15,9 +15,22 @@ public class Unit : IChild
     public IParent Parent { get; private set; }
     public void SetParent(IParent newParent) => Parent = newParent;
 
-    public Unit(string unitName)
+    public Unit(string unitName, int atkDiceCount, int atkDiceVal, int defDiceCount, int defDiceVal, int life)
     {
         ID = ExtensionMethods.GetValidID();
         Name = unitName;
+
+        ATKDiceCount = atkDiceCount;
+        ATKDiceVal = atkDiceVal;
+        DEFDiceCount = defDiceCount;
+        DEFDiceVal = defDiceVal;
+        Life = life;
     }
+
+    public int ATKDiceCount { get; private set; }
+    public int ATKDiceVal { get; private set; }
+    public int DEFDiceCount { get; private set; }
+    public int DEFDiceVal { get; private set; }
+    public int Life { get; private set; }
+    public void ChangeLife(int newLife) => Life = newLife;
 }
